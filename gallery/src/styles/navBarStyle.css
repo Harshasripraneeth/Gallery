@@ -1,0 +1,8 @@
+.logoutButton{
+    color: rgba(255,255,255,.5);
+    padding: .5rem 1rem;
+
+}
+.logoutButton:hover{
+ color: rgba(255,255,255,.3);;
+}

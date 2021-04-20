@@ -1,0 +1,23 @@
+.box{
+    max-width: 1000px;
+    text-align: center;
+    margin: auto;
+}
+.display{
+    margin: 10px auto;
+    max-width: 100rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+}
+.mg-8{
+    margin-top:8px;
+}
+.imgCard:hover{
+    z-index: 1;
+    transform: scale(1.05);
+    box-shadow: 0 25px 40px rgba(0,0,0,0.5);
+}
+.img-maxheight{
+    max-height: 300px;
+}
