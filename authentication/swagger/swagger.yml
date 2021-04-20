@@ -1,0 +1,76 @@
+swagger: "2.0"
+info:
+  title: beego Test API
+  description: beego has a very cool tools to autogenerate documents for your API
+  version: 1.0.0
+  termsOfService: http://beego.me/
+  contact:
+    email: astaxie@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+basePath: /v1
+paths:
+  /user/login:
+    post:
+      tags:
+      - user
+      description: verifying the details of the user
+      operationId: UserController.Login
+      parameters:
+      - in: body
+        name: body
+        description: User Details
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      responses:
+        "200":
+          description: '{string} models.User.Username'
+        "403":
+          description: body is empty
+  /user/register:
+    post:
+      tags:
+      - user
+      description: Registering the details of the user
+      operationId: UserController.Register
+      parameters:
+      - in: body
+        name: body
+        description: User Details
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      responses:
+        "200":
+          description: '{string} models.User.Username'
+        "403":
+          description: body is empty
+  /user/test:
+    get:
+      tags:
+      - user
+      description: Testing the function
+      operationId: UserController.Test
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.User'
+        "403":
+          description: User not found
+definitions:
+  models.User:
+    title: User
+    type: object
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+        format: int64
+      password:
+        type: string
+      username:
+        type: string
