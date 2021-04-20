@@ -2,19 +2,26 @@
 
 //headers
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
+header('Access-Control-Allow-Headers: Authorization,Origin, X-Requested-With, Content-Type, Accept');
 header('Content-Type: application/json');
 
-if($_SERVER['REQUEST_METHOD'] === 'GET'){
+include_once $_SERVER['DOCUMENT_ROOT'] ."/api/config/Database.php";
 
-    $servername='172.17.0.2';
-    $username='root';
-    $password='test';
-    $database='gallery';
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-   $db=mysqli_connect($servername,$username,$password,$database);
-
-   $query = "SELECT location FROM images";
+   $database = new Database();
+   $db = $database->getMYSQLI();
+   $name = $_POST['username'];
+   if(isset($_POST['category']))
+   {
+    $category = $_POST['category'];
+    if($category == "ALL")
+    $query = "SELECT * FROM images where username = '$name' ";
+    else
+    $query = "SELECT * FROM images where username = '$name' and category = '$category'";
+   }
+   else
+   $query = "SELECT * FROM images where username = '$name' ";
 
    $rows = $db->query($query);
 
@@ -26,7 +33,10 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
    	
    	while( $row = $rows->fetch_assoc())
    	{
-         $item = array('location'=>$row['location']);
+         $item = array('id'=>$row['id'],'location'=>$row['location']
+         ,'category' => $row['category']
+         ,'title'=>$row['title']
+         ,'description'=>$row['description']);
    		array_push($results['data'],$item);
    	}
    
@@ -36,9 +46,9 @@ else
 {
    echo json_encode(array('message'=> 'no results found'));
 }
-
- 	    
+	    
 }
 else{
-	echo json_encode(array("message"=>"please ensure the request method is GET"));
+	echo json_encode(array("message"=>"please ensure the request method is POST"));
 } 
+?>
