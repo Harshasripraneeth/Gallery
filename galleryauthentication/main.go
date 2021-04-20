@@ -6,10 +6,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
-	"github.com/gorilla/mux"
-
+	jwt "github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -26,6 +27,7 @@ type Message struct {
 	Status   string `json:"status"`
 	Username string `json:"username"`
 	Error    string `json:"error"`
+	Token    string `json:"token"`
 }
 
 //registration
@@ -58,7 +60,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 
 	//check whether any users are present with existing username and email
 	//get database results
-	results, err := database.Query("SELECT * from users where username = (?) and email =(?)", details.Username, details.Email)
+	results, err := database.Query("SELECT * from users where username = (?) or email =(?)", details.Username, details.Email)
 	if err != nil {
 		message.Error = "error in retreiving results"
 	}
@@ -72,7 +74,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 	//get database results
 	_, err = database.Query("INSERT INTO users (username,email,password) VALUES (?,?,?)", details.Username, details.Email, hashedPassword)
 	if err != nil {
-		message.Error = "error in retreiving results"
+		message.Error = "error in inserting record"
 	}
 
 	defer database.Close()
@@ -81,12 +83,15 @@ stmterr:
 	if len(message.Error) == 0 {
 		message.Status = "success"
 		message.Username = details.Username
+		message.Token, err = GenerateJWT(details.Username)
 	} else {
 		message.Status = "fail"
 	}
 	json.NewEncoder(w).Encode(message)
 
 }
+
+//Login
 
 func Login(w http.ResponseWriter, r *http.Request) {
 
@@ -101,16 +106,21 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	//declaring message
 	var message Message
+	message.Status = "fail"
 
 	database, err := sql.Open("mysql", "root:test@tcp(172.17.0.2)/gallery")
 	if err != nil {
 		message.Error = "error in connecting database"
+		json.NewEncoder(w).Encode(message)
+		return
 	}
 
 	//get database results
 	results, err := database.Query("SELECT password from users where username = (?)", details.Username)
 	if err != nil {
-		message.Error = "error in retrieving resuls"
+		message.Error = "Error Occured, please try again!!"
+		json.NewEncoder(w).Encode(message)
+		return
 	}
 
 	var databaseCreds Details
@@ -118,25 +128,51 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		err = results.Scan(&databaseCreds.Password)
 		if err != nil {
-			message.Error = "error in retreiving results"
+			message.Error = "User Not Found"
+			json.NewEncoder(w).Encode(message)
+			return
 		}
 	}
 	//verifying password
 	if err = bcrypt.CompareHashAndPassword([]byte(databaseCreds.Password), []byte(details.Password)); err != nil {
-		message.Error = "error in hashing"
+		message.Error = "Please check username/password"
+		json.NewEncoder(w).Encode(message)
 		return
 	}
 
 	defer database.Close()
 	defer results.Close()
-	if len(message.Error) == 0 {
-		message.Status = "success"
-		message.Username = details.Username
-	} else {
-		message.Status = "fail"
+
+	token, err := GenerateJWT(details.Username)
+	if err != nil {
+		message.Error = "error occured in generating token !!!"
+		json.NewEncoder(w).Encode(message)
+		return
 	}
+	message.Status = "success"
+	message.Username = details.Username
+	message.Token = token
+	fmt.Println(token)
+
 	json.NewEncoder(w).Encode(message)
 
+}
+
+// function to generate JWT token
+func GenerateJWT(username string) (string, error) {
+
+	var mySiginingKey = []byte("SecretKey")
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["authorized"] = true
+	claims["username"] = username
+	claims["exp"] = time.Now().Add(time.Minute * 10).Unix()
+	tokenString, err := token.SignedString(mySiginingKey)
+	if err != nil {
+		fmt.Println("error occured")
+		return "", err
+	}
+	return tokenString, nil
 }
 
 func main() {
