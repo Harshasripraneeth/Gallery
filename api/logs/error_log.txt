@@ -1,0 +1,36 @@
+172.17.0.1	demoacc3	02/03/21 01:35AM	excceded maximum fize size for php172.17.0.1	demoacc3	02/03/21 01:38AM	excceded maximum fize size for php[03-Feb-2021 01:52:09 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: array_push(): Argument #1 ($array) must be of type array, null given in /var/www/html/api/get1.php:83
+Stack trace:
+#0 /var/www/html/api/get1.php(83): array_push(NULL, Array)
+#1 {main}
+  thrown in /var/www/html/api/get1.php on line 83
+[03-Feb-2021 01:53:20 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: array_push(): Argument #1 ($array) must be of type array, null given in /var/www/html/api/get1.php:84
+Stack trace:
+#0 /var/www/html/api/get1.php(84): array_push(NULL, Array)
+#1 {main}
+  thrown in /var/www/html/api/get1.php on line 84
+[03-Feb-2021 01:54:55 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: array_push(): Argument #1 ($array) must be of type array, null given in /var/www/html/api/get1.php:83
+Stack trace:
+#0 /var/www/html/api/get1.php(83): array_push(NULL, Array)
+#1 {main}
+  thrown in /var/www/html/api/get1.php on line 83
+[03-Feb-2021 01:56:07 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: array_push(): Argument #1 ($array) must be of type array, null given in /var/www/html/api/get1.php:84
+Stack trace:
+#0 /var/www/html/api/get1.php(84): array_push(NULL, Array)
+#1 {main}
+  thrown in /var/www/html/api/get1.php on line 84
+[03-Feb-2021 01:56:40 Asia/Kolkata] PHP Fatal error:  Uncaught TypeError: array_push(): Argument #1 ($array) must be of type array, null given in /var/www/html/api/get1.php:84
+Stack trace:
+#0 /var/www/html/api/get1.php(84): array_push(NULL, Array)
+#1 {main}
+  thrown in /var/www/html/api/get1.php on line 84
+[15-Feb-2021 12:51:24 UTC] PHP Warning:  Undefined array key "Authorization" in /var/www/html/api/post.php on line 25
+[15-Feb-2021 12:52:00 UTC] PHP Warning:  Undefined array key "Authorization" in /var/www/html/api/post.php on line 25
+172.17.0.1	demoacc3	02/15/21 06:22PM	file format not supported[17-Feb-2021 07:47:21 UTC] PHP Warning:  Undefined array key "Authorization" in /var/www/html/api/post.php on line 25
+172.17.0.1	demoacc3	02/17/21 01:17PM	file format not supported[17-Feb-2021 08:11:02 UTC] PHP Warning:  Undefined array key "Authorization" in /var/www/html/api/post.php on line 25
+172.17.0.1	demoacc3	02/17/21 01:41PM	file format not supported[17-Feb-2021 08:13:41 UTC] PHP Warning:  Undefined array key "Authorization" in /var/www/html/api/post.php on line 25
+172.17.0.1	demoacc3	02/17/21 01:43PM	file format not supported[17-Feb-2021 08:14:10 UTC] PHP Warning:  Undefined array key "Authorization" in /var/www/html/api/post.php on line 25
+172.17.0.1	demoacc3	02/17/21 01:44PM	file format not supported[17-Feb-2021 08:15:39 UTC] PHP Warning:  Undefined array key "Authorization" in /var/www/html/api/post.php on line 25
+172.17.0.1	demoacc3	02/17/21 01:45PM	excceded maximum fize size for php[17-Feb-2021 08:15:59 UTC] PHP Warning:  Undefined array key "Authorization" in /var/www/html/api/post.php on line 25
+[17-Feb-2021 08:17:07 UTC] PHP Warning:  Undefined array key "Authorization" in /var/www/html/api/post.php on line 25
+[17-Feb-2021 08:18:13 UTC] PHP Warning:  Undefined array key "Authorization" in /var/www/html/api/post.php on line 25
+[17-Feb-2021 08:18:55 UTC] PHP Warning:  Undefined array key "Authorization" in /var/www/html/api/post.php on line 25
