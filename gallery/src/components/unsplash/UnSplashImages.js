@@ -7,7 +7,7 @@ const UnSplashImages = ({user}) =>{
 
     const [images,setImages] = useState([])
     const baseURL = "https://api.unsplash.com"
-    const ACCESS_KEY = "npKI8ni7urIZ-Sp6snqrDRZNc7KTyGNOWNghg7U3L3A"
+    const ACCESS_KEY = "YOUR_ACCESSKEY"
    
    useEffect(() =>{
       getImages()
